@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { forbiddenNameValidator, emailValidator } from '../forbidden-name.directive';
+import { identityReveleadValidator } from '../identity-revealed.directive';
 
 class Hero{
   name: string;
@@ -45,6 +46,8 @@ export class HeroCrossFieldComponent implements OnInit {
                  ]
                 ],
       power: [this.hero.power, Validators.required]
+    }, {
+      validators: identityReveleadValidator
     })
   }
 
