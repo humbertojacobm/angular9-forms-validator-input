@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { forbiddenNameValidator, emailValidator } from '../forbidden-name.directive';
 import { identityReveleadValidator } from '../identity-revealed.directive';
+import { UniqueAlterEgoValidator } from '../unique-alter-ego-validator.service';
 
 class Hero{
   name: string;
@@ -22,7 +23,9 @@ export class HeroCrossFieldComponent implements OnInit {
   get power() { return this.heroForm.get('power'); }
   get alterEgo() { return this.heroForm.get('alterEgo'); }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private alterEgoValidator: UniqueAlterEgoValidator
+    ) {
     this.hero= new Hero();
     this.hero.name="humberto",
     this.hero.alterEgo="superman",
@@ -39,10 +42,12 @@ export class HeroCrossFieldComponent implements OnInit {
                ]
               ],
       alterEgo: [this.hero.alterEgo,
+                 {asyncValidators: [this.alterEgoValidator.validate.bind(this.alterEgoValidator)],
+                  updateOn: 'blur'},
                  [
                   Validators.required,
                   Validators.minLength(4),
-                  forbiddenNameValidator(/bob/i)
+                  forbiddenNameValidator(/bob/i),
                  ]
                 ],
       power: [this.hero.power, Validators.required]
