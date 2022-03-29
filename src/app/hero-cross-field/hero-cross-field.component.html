@@ -1,0 +1,46 @@
+<form [formGroup]="heroForm">
+  <input id="name" class="form-control"
+            formControlName="name" required >
+  <div *ngIf="name.invalid && (name.dirty || name.touched)"
+    class="alert alert-danger">
+    <div *ngIf="name.errors.required">
+    Name is required.
+    </div>
+    <div *ngIf="name.errors.minlength">
+    Name must be at least 4 characters long.
+    </div>
+    <div *ngIf="name.errors.forbiddenName">
+    Name cannot be Bob.
+    </div>
+  </div>
+  <br>
+  <input id="alterEgo" class="form-control"
+            formControlName="alterEgo" required >
+  <div *ngIf="alterEgo.invalid && (alterEgo.dirty || alterEgo.touched)"
+        class="alert alert-danger">
+    <div *ngIf="alterEgo.errors.required">
+      alterEgo is required.
+    </div>
+    <div *ngIf="alterEgo.errors.minlength">
+      alterEgo must be at least 4 characters long.
+    </div>
+    <div *ngIf="alterEgo.errors.forbiddenName">
+      alterEgo cannot be Bob.
+    </div>
+  </div>
+  <div
+      *ngIf="heroForm.errors?.identityRevealed
+        && ( heroForm.touched || heroForm.dirty )"
+      class="cross-validation-error-message
+             alert
+             alert-danger"
+  >
+    Name cannot match alter ego
+  </div>
+</form>
+<p>
+  form json: {{ heroForm.value | json}}
+</p>
+<p>
+  form status: {{heroForm.status}}
+</p>
